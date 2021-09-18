@@ -1,0 +1,27 @@
+html, body {
+    background: transparent;
+}
+body {
+    width: 1000px;
+}
+
+#winner {
+    margin: 30px auto;
+    text-align: center;
+    font-size: 80px;
+    font-weight: bold;
+    font-family: 'Bebas Neue';
+    color: white;
+}
+
+canvas {
+    margin-top: 10px;
+}
+
+#pointer {
+    width: 50px;
+    position: absolute;
+    left: 475px;
+    top: 0;
+    z-index: 999;
+}
