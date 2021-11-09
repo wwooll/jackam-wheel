@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="style.css" type="text/css" />
         <script src='js/winwheel/Winwheel.min.js'></script>
         <script src="js/TweenMax.min.js"></script>
+        <script src="wheel.json"></script>
     </head>
     <body style="background: transparent; width: 1000px">
         <canvas id='canvas' width='1000' height='800'>
@@ -11,24 +12,17 @@
         </canvas>
         <img id="pointer" src="pointer.png" />
         <script>
+            wheelSegments.forEach(function (s) {
+                if (s.size) {
+                    s.size = (s.size / 100) * 360;  // Convert percent to degrees
+                }
+            });
             let theWheel = new Winwheel({
-                'numSegments'  : 10,         // Number of segments
-                'outerRadius'  : 400,       // The size of the wheel.
-                'textFontSize' : 28,        // Font size.
-                'segments'     :            // Definition of all the segments.
-                [
-                    {'fillStyle' : '#FFA900', 'text' : 'Breaking News'},
-                    {'fillStyle' : '#0021C8', 'text' : 'Fist Fight', 'textFillStyle': '#FFFFFF', 'size': 28.8},
-                    {'fillStyle' : '#FFD200', 'text' : 'Comey Momey', 'size': 28.8},
-                    {'fillStyle' : '#FFA900', 'text' : 'Minute of Mitt', 'size': 23.4},
-                    {'fillStyle' : '#FF7100', 'text' : 'Spin Again', 'size': 70.2},
-                    {'fillStyle' : '#D96000', 'text' : 'Weiner', 'size': 25.2},
-                    {'fillStyle' : '#D9B100', 'text' : 'Flaked', 'size': 57.6},
-                    {'fillStyle' : '#D98F00', 'text' : 'Monkeybone', 'size': 25.2},
-                    {'fillStyle' : '#A74A00', 'text' : '+5 Minute-Free Minutes', 'size': 50.4, 'textFontSize': 20},
-                    {'fillStyle' : '#FFD200', 'text' : 'Freestyle Love Supreme', 'size': 32.4}
-                ],
-                'animation' :               // Definition of the animation
+                'numSegments'  : 10,             // Number of segments
+                'outerRadius'  : 400,            // The size of the wheel.
+                'textFontSize' : 28,             // Font size.
+                'segments'     : wheelSegments,  // Definition of all the segments.,
+                'animation' :                    // Definition of the animation
                 {
                     'type'     : 'spinToStop',
                     'duration' : 7,
