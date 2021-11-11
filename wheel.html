@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="style.css" type="text/css" />
         <script src='js/winwheel/Winwheel.min.js'></script>
         <script src="js/TweenMax.min.js"></script>
-        <script src="wheel.json"></script>
+        <script src="wheel.js"></script>
     </head>
     <body style="background: transparent; width: 1000px">
         <canvas id='canvas' width='1000' height='800'>
@@ -17,6 +17,14 @@
                     s.size = (s.size / 100) * 360;  // Convert percent to degrees
                 }
             });
+
+            let tickAudio = new Audio('sound/tick.ogg');
+            function playTick() {
+                tickAudio.pause();
+                tickAudio.currentTime = 0;
+                tickAudio.play();
+            }
+
             let theWheel = new Winwheel({
                 'numSegments'  : 10,             // Number of segments
                 'outerRadius'  : 400,            // The size of the wheel.
@@ -35,6 +43,11 @@
                 'textOrientation': 'horizontal',
                 'textAlignment': 'center'
             });
+            
+            function playClip(filename) {
+                let clipAudio = new Audio('sound/' + filename);
+                clipAudio.play();
+            }
  
             let hitAudio = new Audio('sound/hit.ogg');
             function playHit() {
@@ -49,37 +62,39 @@
                 againAudio.currentTime = 0;
                 againAudio.play();
             }
-            let breakingNewsAudio = new Audio('sound/breaking-news.ogg');
-            function playBreakingNews() {
-                breakingNewsAudio.pause();
-                breakingNewsAudio.currentTime = 0;
-                breakingNewsAudio.play();
-            }
+
             // Called when the animation has finished.
             function alertPrize(indicatedSegment)
             {
-                if(indicatedSegment.text === 'Spin Again') {
-                    theWheel.rotationAngle = theWheel.rotationAngle % 360;
-                    theWheel.animation.spins = Math.floor(Math.random() * 9);
-                    window.setTimeout(() => {theWheel.startAnimation()}, 3000);
-                    playAgain();
-                } else if (indicatedSegment.text === 'Breaking News') {
-                    playBreakingNews();
-                } else {
-                    playHit();
+                switch(indicatedSegment.text) {
+                    case 'Spin Again':
+                        theWheel.rotationAngle = theWheel.rotationAngle % 360;
+                        theWheel.animation.spins = Math.floor(Math.random() * 9);
+                        window.setTimeout(() => {theWheel.startAnimation()}, 3000);
+                        playAgain();
+                        break;
+                    case 'Breaking News':
+                        playClip('breaking-news.ogg');
+                        break;
+                    case 'Flaked':
+                        playClip('Flaked.ogg')
+                        break;
+                    case 'Minute of Mitt':
+                        playClip('Minute-of-Mitt.ogg')
+                        break;
+                    case 'Comey Momey':
+                        playClip('Comey-Momey.ogg')
+                        break;
+                    case 'Freestyle Love Supreme':
+                        playClip('Freestyle-Love-Supreme.ogg')
+                        break;
+                    default:
+                        playHit();
                 }
                 document.getElementById('winner').textContent = indicatedSegment.text;
             }
 
-            let tickAudio = new Audio('sound/tick.ogg');
-            function playTick() {
-                tickAudio.pause();
-                tickAudio.currentTime = 0;
-                tickAudio.play();
-            }
-
             window.setTimeout(() => {theWheel.startAnimation()}, 1000);
-
         </script>
         <div id="winner">
             
